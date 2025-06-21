@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Simple IDS Dashboard</title>
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <meta http-equiv="refresh" content="20">
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f2f2f2; }
-        h1 { color: #333; }
-        .log { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-height: 600px; overflow-y: auto; }
-        .buttons { margin-bottom: 20px; }
-        button { padding: 10px 15px; margin-right: 10px; font-size: 14px; border: none; border-radius: 5px; background: #007bff; color: #fff; cursor: pointer; }
-        button:hover { background: #0056b3; }
-        pre { white-space: pre-wrap; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Simple IDS Dashboard</title>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <style>
+    body { font-family: Arial; margin: 30px; background: #f4f4f4; }
+    h1 { color: #222; }
+    .log-box { background: #fff; padding: 20px; border-radius: 8px; max-height: 500px; overflow-y: scroll; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .controls { margin: 15px 0; }
+    button { margin-right: 10px; padding: 10px 15px; border: none; border-radius: 5px; background: #007bff; color: white; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    pre { white-space: pre-wrap; margin: 0; }
+  </style>
 </head>
 <body>
+  <h1>🛡️ Simple IDS Dashboard</h1>
 
-<h1>Simple Intrusion Detection System Dashboard</h1>
-
-<div class="buttons">
+  <div class="controls">
     <a href="/clear"><button>Clear Logs</button></a>
     <a href="/download"><button>Download Logs</button></a>
-</div>
+  </div>
 
-<div class="log" id="logArea">
+  <div class="log-box" id="logArea">
     {% for line in logs %}
-        <pre>{{ line }}</pre>
+      <pre>{{ line }}</pre>
     {% endfor %}
-</div>
+  </div>
 
-<script>
-    var socket = io();
+  <script>
+    const socket = io();
     socket.on('new_log', function(data) {
-        var logArea = document.getElementById('logArea');
-        var newLog = document.createElement('pre');
-        newLog.textContent = data.log;
-        logArea.appendChild(newLog);
+      const logArea = document.getElementById('logArea');
+      const entry = document.createElement('pre');
+      entry.textContent = data.log;
+      logArea.appendChild(entry);
     });
-</script>
-
+  </script>
 </body>
 </html>
